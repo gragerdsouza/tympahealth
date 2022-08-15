@@ -1,6 +1,4 @@
 import AllDevice from './components/AllDevice.vue';
-import CreateDevice from './components/CreateDevice.vue';
-import EditDevice from './components/EditDevice.vue';
 
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -11,17 +9,6 @@ const routes = [
         name: 'home',
         path: '/',
         component: AllDevice
-    },
-    {
-        name: 'create',
-        path: '/create',
-        component: CreateDevice
-    },
-    {
-        name: 'edit',
-        path: '/edit/:id',
-        component: EditDevice
-    
     },
     {   path: "*", 
         component: {
