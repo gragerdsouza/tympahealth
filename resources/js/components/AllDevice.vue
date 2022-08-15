@@ -128,10 +128,6 @@ import DeviceDataService from "../services/DeviceDataService";
             },
             dialogDelete (val) {
                 val || this.closeDelete()
-            },
-            shown() {
-                this.rules = {} //clear rules
-                this.$refs.form.reset() //reset the form (requires eager in v-dialog)
             }
         },
         created () {

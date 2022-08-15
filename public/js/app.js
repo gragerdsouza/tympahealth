@@ -2563,11 +2563,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     dialogDelete: function dialogDelete(val) {
       val || this.closeDelete();
-    },
-    shown: function shown() {
-      this.rules = {}; //clear rules
-
-      this.$refs.form.reset(); //reset the form (requires eager in v-dialog)
     }
   },
   created: function created() {

@@ -20,6 +20,7 @@
         "vuetify": "^2.6.9"
     },
     "devDependencies": {
+        "laravel-mix-artisan-serve": "^2.0.0",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.54.4",
         "sass-loader": "^12.6.0",
