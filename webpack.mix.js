@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-require('laravel-mix-artisan-serve');
+//require('laravel-mix-artisan-serve');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,5 +14,5 @@ require('laravel-mix-artisan-serve');
 
 mix.js('resources/js/app.js', 'public/js')
     .vue()
-    .sass('resources/sass/app.scss', 'public/css')
-    .serve();
+    .sass('resources/sass/app.scss', 'public/css');
+    //.serve();

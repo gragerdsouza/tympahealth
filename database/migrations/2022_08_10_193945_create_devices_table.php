@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('devices', function (Blueprint $table) {
-            $table->text('id')->unique();
+            $table->string('id')->unique();
             $table->text('model');
             $table->text('brand');
             $table->text('release_date')->nullable();
