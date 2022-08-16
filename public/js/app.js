@@ -2626,7 +2626,7 @@ __webpack_require__.r(__webpack_exports__);
             console.log(error);
           });
         } else {
-          _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"].create(this.devices).then(function (response) {
+          _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"].create(this.editedItem).then(function (response) {
             return _this5.retrieveDevices();
           })["catch"](function (err) {
             return console.log(err);

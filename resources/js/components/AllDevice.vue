@@ -190,7 +190,7 @@ import DeviceDataService from "../services/DeviceDataService";
                         console.log(error);
                     });
             } else {
-                DeviceDataService.create(this.devices)
+                DeviceDataService.create(this.editedItem)
                     .then(response => (
                             this.retrieveDevices()
                     ))
