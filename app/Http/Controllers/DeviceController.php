@@ -98,6 +98,7 @@ class DeviceController extends Controller
         //Update all the necessary fields and save into database
         $device->model = $request->input('model');
         $device->brand = $request->input('brand');
+        $device->release_date = $request->input('release_date');
         $device->os = $request->input('os');
         $device->is_new = $request->input('is_new');
         $device->save();
