@@ -1,22 +1,22 @@
-import http from "../http-common";
+import apiInteraction from "../base";
 class DeviceDataService {
-  getAll() {
-    return http.get("/devices");
+  getAllDevice() {
+    return apiInteraction.get("/devices");
   }
-  get(id) {
-    return http.get(`/devices/${id}`);
+  getDevice(id) {
+    return apiInteraction.get(`/devices/${id}`);
   }
-  create(data) {
-    return http.post("/devices", data);
+  createDevice(data) {
+    return apiInteraction.post("/devices", data);
   }
-  update(id, data) {
-    return http.put(`/devices/${id}`, data);
+  updateDevice(id, data) {
+    return apiInteraction.put(`/devices/${id}`, data);
   }
-  delete(id) {
-    return http.delete(`/devices/${id}`);
+  deleteDevice(id) {
+    return apiInteraction.delete(`/devices/${id}`);
   }
-  search(keyword) {
-    return http.get(`/devices?query=${keyword}`);
+  searchDevice(keyword) {
+    return apiInteraction.get(`/devices?query=${keyword}`);
   }
 }
 export default new DeviceDataService();

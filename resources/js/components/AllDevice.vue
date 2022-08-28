@@ -76,7 +76,7 @@
 </template>
 
 <script>
-    import { exit } from "process";
+import { exit } from "process";
 import DeviceDataService from "../services/DeviceDataService";
     export default {
         data: () => ({
@@ -135,7 +135,7 @@ import DeviceDataService from "../services/DeviceDataService";
         },
         methods: {
             retrieveDevices () {
-                DeviceDataService.getAll()
+                DeviceDataService.getAllDevice()
                     .then(response => {
                         this.devices = response.data.data;
 
@@ -158,9 +158,11 @@ import DeviceDataService from "../services/DeviceDataService";
       },
 
       deleteItemConfirm () {
-        DeviceDataService.delete(this.editedItem.id)
+        DeviceDataService.deleteDevice(this.editedItem.id)
                     .then(response => {
-                        this.retrieveDevices()
+                        //this.retrieveDevices()
+                        //this.devices.splice(this.editedIndex, 1, this.editedItem)
+                        vm.items.splice(this.editedIndex, 1) 
                     });
         this.closeDelete()
       },
@@ -182,17 +184,18 @@ import DeviceDataService from "../services/DeviceDataService";
       save () {
         if (this.$refs.form.validate()) {
            if (this.editedIndex > -1) {
-            Object.assign(this.devices[this.editedIndex], this.editedItem)
-            DeviceDataService.update(this.editedItem.id, this.editedItem)
+            DeviceDataService.updateDevice(this.editedItem.id, this.editedItem)
                         .then((res) => {
-                            this.retrieveDevices()
+                            //this.retrieveDevices()
+                            Object.assign(this.devices[this.editedIndex], this.editedItem)
                         }).catch((error) => {
                         console.log(error);
                     });
             } else {
-                DeviceDataService.create(this.editedItem)
+                DeviceDataService.createDevice(this.editedItem)
                     .then(response => (
-                            this.retrieveDevices()
+                            //this.retrieveDevices()
+                            this.devices.push(response.data.data)
                     ))
                     .catch(err => console.log(err))
                     .finally(() => this.loading = false)

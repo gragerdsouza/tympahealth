@@ -16,10 +16,12 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //Get all devices from the database
-        $devices = new DeviceCollection(Device::all());
+        $search = empty($request->query('query')) ? '' : trim($request->query('query'));
+        $devices = new DeviceCollection(Device::search($search)->paginate(10));
+        //$devices = new DeviceCollection(Device::all());
         return $devices->response();
     }
 

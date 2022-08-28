@@ -2572,7 +2572,7 @@ __webpack_require__.r(__webpack_exports__);
     retrieveDevices: function retrieveDevices() {
       var _this = this;
 
-      _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"].getAll().then(function (response) {
+      _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"].getAllDevice().then(function (response) {
         _this.devices = response.data.data;
       })["catch"](function (e) {
         console.log(e);
@@ -2591,8 +2591,10 @@ __webpack_require__.r(__webpack_exports__);
     deleteItemConfirm: function deleteItemConfirm() {
       var _this2 = this;
 
-      _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"](this.editedItem.id).then(function (response) {
-        _this2.retrieveDevices();
+      _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"].deleteDevice(this.editedItem.id).then(function (response) {
+        //this.retrieveDevices()
+        //this.devices.splice(this.editedIndex, 1, this.editedItem)
+        vm.items.splice(_this2.editedIndex, 1);
       });
       this.closeDelete();
     },
@@ -2619,15 +2621,17 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.$refs.form.validate()) {
         if (this.editedIndex > -1) {
-          Object.assign(this.devices[this.editedIndex], this.editedItem);
-          _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"].update(this.editedItem.id, this.editedItem).then(function (res) {
-            _this5.retrieveDevices();
+          _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"].updateDevice(this.editedItem.id, this.editedItem).then(function (res) {
+            //this.retrieveDevices()
+            Object.assign(_this5.devices[_this5.editedIndex], _this5.editedItem);
           })["catch"](function (error) {
             console.log(error);
           });
         } else {
-          _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"].create(this.editedItem).then(function (response) {
-            return _this5.retrieveDevices();
+          _services_DeviceDataService__WEBPACK_IMPORTED_MODULE_1__["default"].createDevice(this.editedItem).then(function (response) {
+            return (//this.retrieveDevices()
+              _this5.devices.push(response.data.data)
+            );
           })["catch"](function (err) {
             return console.log(err);
           })["finally"](function () {
@@ -3003,6 +3007,29 @@ new vue__WEBPACK_IMPORTED_MODULE_3__["default"]({
 
 /***/ }),
 
+/***/ "./resources/js/base.js":
+/*!******************************!*\
+  !*** ./resources/js/base.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (axios__WEBPACK_IMPORTED_MODULE_0___default().create({
+  baseURL: "http://localhost:8000/api",
+  headers: {
+    "Content-type": "application/json"
+  }
+}));
+
+/***/ }),
+
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -3043,29 +3070,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
-
-/***/ }),
-
-/***/ "./resources/js/http-common.js":
-/*!*************************************!*\
-  !*** ./resources/js/http-common.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (axios__WEBPACK_IMPORTED_MODULE_0___default().create({
-  baseURL: "http://localhost:8000/api",
-  headers: {
-    "Content-type": "application/json"
-  }
-}));
 
 /***/ }),
 
@@ -3143,7 +3147,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _http_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../http-common */ "./resources/js/http-common.js");
+/* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../base */ "./resources/js/base.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -3158,34 +3162,34 @@ var DeviceDataService = /*#__PURE__*/function () {
   }
 
   _createClass(DeviceDataService, [{
-    key: "getAll",
-    value: function getAll() {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get("/devices");
+    key: "getAllDevice",
+    value: function getAllDevice() {
+      return _base__WEBPACK_IMPORTED_MODULE_0__["default"].get("/devices");
     }
   }, {
-    key: "get",
-    value: function get(id) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get("/devices/".concat(id));
+    key: "getDevice",
+    value: function getDevice(id) {
+      return _base__WEBPACK_IMPORTED_MODULE_0__["default"].get("/devices/".concat(id));
     }
   }, {
-    key: "create",
-    value: function create(data) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post("/devices", data);
+    key: "createDevice",
+    value: function createDevice(data) {
+      return _base__WEBPACK_IMPORTED_MODULE_0__["default"].post("/devices", data);
     }
   }, {
-    key: "update",
-    value: function update(id, data) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].put("/devices/".concat(id), data);
+    key: "updateDevice",
+    value: function updateDevice(id, data) {
+      return _base__WEBPACK_IMPORTED_MODULE_0__["default"].put("/devices/".concat(id), data);
     }
   }, {
-    key: "delete",
-    value: function _delete(id) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/devices/".concat(id));
+    key: "deleteDevice",
+    value: function deleteDevice(id) {
+      return _base__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/devices/".concat(id));
     }
   }, {
-    key: "search",
-    value: function search(keyword) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get("/devices?query=".concat(keyword));
+    key: "searchDevice",
+    value: function searchDevice(keyword) {
+      return _base__WEBPACK_IMPORTED_MODULE_0__["default"].get("/devices?query=".concat(keyword));
     }
   }]);
 
